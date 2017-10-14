@@ -1,0 +1,15 @@
+extends ../../../s-scribble 
+
+block content 
+    article
+        header.contenthdr.contenthdr--scribble 
+            h2 #{post.fields.title}
+            
+            ul.metainfo 
+                li.metainfo--published #{post.fields.date}
+                li.metainfo--tags 
+                    each tag in post.fields.tags 
+                        span.slug #{tag}
+    
+        section.content.content--scribble.content--bodytext
+            | !{md.render(post.fields.body)}

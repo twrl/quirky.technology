@@ -1,0 +1,22 @@
+extends ../../../s-project 
+
+block content 
+    article 
+        header.contenthdr.contenthdr--projects
+            h2 #{project.fields.title}
+            if project.fields.license 
+                p License: #{project.fields.license}
+            if project.fields.repository 
+                p Code: 
+                    a(href=project.fields.repository) #{project.fields.repository}
+            
+        section.content.content--projects 
+            | !{md.render(project.fields.description)}
+            
+        if docs
+            section.content.content--projects 
+                h3 Documents 
+                ul
+                each doc in docs
+                    li #{doc.fields.title}
+            

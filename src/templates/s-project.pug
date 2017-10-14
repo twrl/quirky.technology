@@ -1,0 +1,25 @@
+extends baredoc 
+
+block head 
+
+block body 
+    block content
+    footer.pagefooter
+        block footer 
+            section
+                ul 
+                    li #[a(href='/') Home]
+                        ul 
+                            li #[a(href='/me') Me]
+                            li #[a(href='/projects') Projects]
+                            li #[a(href='/scribble') Scribbles]
+            section 
+            section
+                div
+                    a(href='https://www.contentful.com/',rel='nofollow',target='_blank')
+                        img(src='https://images.contentful.com/fo9twyrwpveg/7F5pMEOhJ6Y2WukCa2cYws/398e290725ef2d3b3f0f5a73ae8401d6/PoweredByContentful_DarkBackground.svg',style='max-width:100px;width:100%;',alt='Powered by Contentful')
+                div 
+                    a(rel='license',href='http://creativecommons.org/licenses/by-nc/4.0/')
+                        img(alt='Creative Commons Licence',style='border-width:0',src='https://i.creativecommons.org/l/by-nc/4.0/88x31.png')
+                    br 
+                    | This work is licensed under a #[a(rel='license',href='http://creativecommons.org/licenses/by-nc/4.0/') Creative Commons Attribution-NonCommercial 4.0 International License].

@@ -1,0 +1,15 @@
+extends ../../s-scribble 
+
+block content 
+    header.contenthdr.contenthdr--scribble
+        h2 Scribble 
+    
+    section.content.content--scribble
+        each post in posts.items
+            section(resource='/scribble/' + post.fields.slug)
+                header 
+                    h3
+                        i.mdi.mdi-file-document-box 
+                        a(href='/scribble/' + post.fields.slug) #{post.fields.title}
+                
+    

@@ -1,0 +1,61 @@
+extends ../baredoc 
+
+block head 
+    title quirky.technology
+    script(type='application/javascript').
+        document.addEventListener('DOMContentLoaded', function (domReady) {
+            var quadrants = document.querySelectorAll('.front__quadrant')
+            Array.prototype.forEach.call(quadrants, function (quadrant) {
+                quadrant.addEventListener('click', function (event) {
+                    var target = event.currentTarget
+                    var section = target.dataset.section 
+                    if (section) {
+                        target.classList.toggle('front__quadrant--active')
+                        window.setTimeout(function () { window.location = '/' + section }, 1000)
+                    }
+                })
+            })
+        })
+    // script(type='application/javascript').
+    //     document.addEventListener('DOMContentLoaded', (e) => {
+    //         document.querySelector('#wedge-1').addEventListener('click', (e) => {
+    //             let res = document.createElement('link')
+    //             res.rel = 'prefetch'
+    //             res.href = '/projects'
+    //             document.head.appendChild(res)
+                
+    //             document.querySelector('#wedge-1').classList.add('active')
+    //             window.setTimeout((e) => { window.location = '/projects' }, 1000)
+    //         })
+            
+    //         document.querySelector('#wedge-2').addEventListener('click', (e) => {
+    //             let res = document.createElement('link')
+    //             res.rel = 'prefetch'
+    //             res.href = '/me'
+    //             document.head.appendChild(res)
+                
+    //             document.querySelector('#wedge-2').classList.add('active')
+    //             window.setTimeout((e) => { window.location = '/me'}, 1000)
+    //         })
+            
+    //         document.querySelector('#wedge-3').addEventListener('click', (e) => {
+    //             let res = document.createElement('link')
+    //             res.rel = 'prefetch'
+    //             res.href = '/scribble'
+    //             document.head.appendChild(res)
+                
+    //             document.querySelector('#wedge-3').classList.add('active')
+    //             window.setTimeout((e) => { window.location = '/scribble'}, 1000)
+    //         })
+    //     })
+    
+block body 
+    .front#root-wedges 
+        header.front__quadrant#wedge-0 
+            h1 QUIRKY.technology
+        section.front__quadrant#wedge-1(data-section='projects')
+            h2 Projects
+        section.front__quadrant#wedge-2(data-section='me')
+            h2 Me 
+        section.front__quadrant#wedge-3(data-section='scribble')
+            h2 Scribble

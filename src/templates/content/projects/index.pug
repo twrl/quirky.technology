@@ -1,0 +1,18 @@
+extends ../../s-project 
+
+block content 
+    header.contenthdr.contenthdr--projects
+        h2 Projects 
+        
+        | !{md.render(cover.fields.body)}
+    
+    section.content.content--projects
+        each project in projects.items 
+            section.projectsummary(resource='/projects/' + project.fields.slug,typeof='http://usefulinc.com/ns/doap#Project') 
+                div 
+                    h3 
+                        a(href='/projects/' + project.fields.slug) #{project.fields.title}
+                    if project.fields.repository
+                        p 
+                            a.repo-link(href=project.fields.repository,title=project.fields.repository) Repository #[i.mdi.mdi-git]
+                div !{md.render(project.fields.summary || '')}

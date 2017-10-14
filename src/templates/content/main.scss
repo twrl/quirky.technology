@@ -1,0 +1,223 @@
+@import '../../../node_modules/css-reset-and-normalize-sass/scss/flavored-reset-and-normalize.scss';
+
+
+
+p {
+    margin-bottom: 1.5ex;
+}
+
+h6 {
+    font-variant: italic;
+    margin-bottom: 1.5ex;
+}
+
+h5 {
+    font-variant: bold;
+    margin-bottom: 1.5ex;
+}
+
+h4 {
+    font-size: 110%;
+    margin-bottom: 1.5ex;
+}
+
+h3 {
+    font-size: 120%;
+    font-variant: italic;
+    margin-bottom: 1.5ex;
+}
+
+h2 {
+    font-size: 130%;
+    font-variant: bold;
+    margin-bottom: 1.5ex;
+}
+
+h1 {
+    font-size: 150%;
+    font-variant: bold;
+    margin-bottom: 1.5ex;
+}
+
+
+body {
+    font-family: 'Titillium Web';
+    color: white;
+    margin: 0;
+    background-color: #202020;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 1rem;
+    font-family: 'Nova Flat';
+    color: white;
+    a, a:link, a:active, a:visited {
+        color: inherit;
+        text-decoration: none;
+    }
+    a:hover {
+        color: inherit;
+        text-decoration: underline;
+    }
+}
+
+#root-wedges {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    
+    >* {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        
+        position: absolute;
+        width: 100vmax;
+        height: 100vmax;
+        top: 50vh;
+        left: 50vw;
+        transform-origin: top left;
+        
+        h1, h2 {
+            margin: 1rem;
+            font-family: 'Nova Flat';
+            color: white;
+        }
+    }
+    
+    #wedge-0 {
+
+        background-color: #202020;
+        
+        transform-origin: top left;
+        transform: rotate(-135deg);
+        
+        h1 {
+            text-align: right;
+            transform: rotate(180deg);
+        }
+        
+    }
+    
+    #wedge-1 {
+
+        background-color: hsl(206, 5%, 29%);
+        transform: rotate(-45deg);
+        
+    }
+    
+    #wedge-1:hover {
+        background-color: hsl(206, 45%, 29%);
+    }
+    
+    #wedge-2 {
+
+        background-color: hsl(70, 5%, 43%);
+        transform: rotate(45deg);
+        
+        
+    }
+    
+    #wedge-2:hover {
+        background-color: hsl(70, 50%, 43%);
+    }
+    
+    #wedge-3 {
+
+        background-color: hsl(0, 5%, 45%);
+        transform: rotate(135deg);
+        
+        h2 {
+            text-align: right;
+            transform: rotate(-180deg);
+        }
+    }
+    
+    #wedge-3:hover {
+        background-color: hsl(0, 50%, 45%);
+    }
+    
+    .active {
+        transition: 1s ease-in-out;
+        transform: rotate(0) !important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 100;
+        
+        h2 {
+            transition: 1s ease-in-out;
+            text-align: left !important;
+            transform: rotate(0) !important;
+        }
+        
+    }
+    
+}
+
+.sect-projects {
+    background-color: hsl(206, 45%, 29%);
+    margin: 0;
+    padding: 16px;
+}
+
+.sect-scribble {
+    background-color: hsl(0, 50%, 45%);
+    margin: 0;
+    padding: 16px;
+}
+
+.sect-about {
+    background-color: hsl(70, 50%, 43%);
+    margin: 0;
+    padding: 16px;
+}
+
+.sect-projects, .sect-scribble, .sect-about {
+    >h2 {
+        margin: 0;
+        margin-bottom: 16px;
+    }
+}
+
+
+
+.project-summary {
+    
+    background-color: white;
+    color: hsl(206, 45%, 29%);
+    margin-bottom: 16px;
+    padding: 16px;
+    
+    
+    border-radius: 4px;
+    
+    >div:first-child { text-align: right; }
+    
+    h3 { color: hsl(206, 45%, 29%); }
+}
+
+
+@media screen and (min-width: 800px) and (orientation: landscape) {
+    .sect-projects, .sect-scribble, .sect-about {
+        padding-left: 25vw;
+        padding-right: 25vw;
+    }
+    
+    #root-wedges .active h2 {
+        padding-left: 25vw;
+
+    }
+    
+    .project-summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1em;
+        
+        .repo-link {
+            font-size: 75%;
+        }
+    }
+}
