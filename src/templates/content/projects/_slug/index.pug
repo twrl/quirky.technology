@@ -10,11 +10,11 @@ block content
                 p Code: 
                     a(href=project.fields.repository) #{project.fields.repository}
             
-        section.content.content--projects 
+        section.content.content--projects.content--bodytext
             | !{md.render(project.fields.description)}
             
         if docs
-            section.content.content--projects 
+            section.content.content--projects.content--bodytext 
                 h3 Documents 
                 ul
                 each doc in docs

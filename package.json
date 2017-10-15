@@ -51,6 +51,7 @@
     "markdown-it": "^8.4.0",
     "markdown-it-header-sections": "^0.2.2",
     "markdown-it-highlightjs": "^3.0.0",
+    "moment": "^2.19.1",
     "pug-runtime": "^2.0.3",
     "slugify": "^1.2.1"
   }

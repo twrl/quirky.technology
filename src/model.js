@@ -3,12 +3,17 @@ import styleMain from './templates/content/nu.scss'
 import projectIndex from './templates/content/projects/index'
 import projectDetail from './templates/content/projects/_slug/index'
 
+import _ from 'lodash'
+import slugify from 'slugify'
+import moment from 'moment'
 
 import MarkdownIt from 'markdown-it'
 import MarkdownItHeaderSections from 'markdown-it-header-sections'
 import MarkdownItHighlightJs from 'markdown-it-highlightjs'
 
 let md = new MarkdownIt().use(MarkdownItHeaderSections).use(MarkdownItHighlightJs)
+
+const slugger = _.partialRight(slugify, { lower: true })
 
 function f(path, contentType, contentGenerator, locals) {
     if ((typeof contentGenerator) === 'string') {
@@ -65,16 +70,31 @@ async function projects (contentful, emitter) {
 
 import blogIndex from './templates/content/scribble/index'
 import blogPost from './templates/content/scribble/_blog/index'
+import blogTagged from './templates/content/scribble/tags/_tag/index'
 
 async function blog (contentful, emitter) {
     
     let posts = await contentful.getEntries({content_type: 'blogPost', order: 'fields.date'})
     
+    let tags = _(posts.items).map(p => p.fields.tags).flatten().uniq().keyBy(slugger).invert().value();
+    
     g('scribble/index.html', blogIndex, {posts, md}).then(emitter)
     for (let post of posts.items) {
-        g(`scribble/${post.fields.slug}/index.html`, blogPost, {post, md}).then(emitter)
+        g(`scribble/${post.fields.slug}/index.html`, blogPost, {post, md, slugger}).then(emitter)
     }
     
+    // for (let {tag, slug} in tags) {
+    //     let tagged_posts = _(posts.items).filter(p => p.fields.tags && _.includes(p.fields.tags, tag)).value() 
+    //     console.dir(tagged_posts)
+    //     g(`scribble/tags/${slug}/index.html`, blogTagged, {posts: tagged_posts, tag, slug, md}).then(emitter)
+    // }
+    
+    
+    _(posts.items).map(p => p.fields.tags).flatten().uniq().forEach(tag => {
+        let slug = slugger(tag)
+        let tagged_posts = _(posts.items).filter(p => p.fields.tags && _.includes(p.fields.tags, tag)).value() || []
+        return g(`scribble/tags/${slug}/index.html`, blogTagged, {posts: tagged_posts, tag, slug, md}).then(emitter)
+    })
     
 }
 

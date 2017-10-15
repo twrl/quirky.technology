@@ -9,7 +9,8 @@ block content
                 li.metainfo--published #{post.fields.date}
                 li.metainfo--tags 
                     each tag in post.fields.tags 
-                        span.slug #{tag}
+                        span.slug 
+                            a(href='/scribble/tags/' + slugger(tag)) #{tag}
     
         section.content.content--scribble.content--bodytext
             | !{md.render(post.fields.body)}
