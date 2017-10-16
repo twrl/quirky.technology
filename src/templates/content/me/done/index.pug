@@ -1,0 +1,26 @@
+extends ../../../s-about.pug 
+
+block head 
+    title Things I Have Done at QUIRKY.technology 
+    
+block content 
+    header.contenthdr.contenthdr--me 
+        h2 Things I Have Done 
+        
+    section.content.content--me 
+        ul.experiencetimeline
+            each experience in experiences.items 
+                li.experience(data-from=relative(experience.fields.from),data-to=relative(experience.fields.to),class='experience--'+experience.fields.kind) 
+                    a(id=slugger(experience.fields.title))
+                    h4 
+                        a(href='/me/done/' + slugger(experience.fields.title)) #{experience.fields.title} 
+                    p.experience__organisation #{experience.fields.organisation}
+                    p.experience__timespan 
+                        time(datetime=experience.fields.from) #{moment(experience.fields.from).format('MMMM YYYY')}
+                        if (experience.fields.to) 
+                            |  to 
+                            if (moment(experience.fields.to).isAfter())
+                                | date 
+                            else 
+                                time(datetime=experience.fields.to) #{moment(experience.fields.to).format('MMMM YYYY')}
+                    

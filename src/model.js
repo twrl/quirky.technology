@@ -54,6 +54,10 @@ async function g(path, contentGenerator, locals) {
         })
 }
 
+async function projectDoc (contentful, emitter, doc) {
+    
+}
+
 async function projects (contentful, emitter) {
     
     let projects = await contentful.getEntries({content_type: 'project'})
@@ -62,8 +66,7 @@ async function projects (contentful, emitter) {
     g('projects/index.html', projectIndex, {projects, cover: cover.items[0], md}).then(emitter)
     for (let project of projects.items) {
         let docs = project.fields.docs ? await Promise.all(project.fields.docs.map(link => contentful.getEntry(link.sys.id))) : [];
-        //console.dir(docs)
-        g(`projects/${project.fields.slug}/index.html`, projectDetail, {project, /*docs,*/ md}).then(emitter)
+        g(`projects/${project.fields.slug}/index.html`, projectDetail, {project, docs, md, slugger}).then(emitter)
     }
     
 }
@@ -74,21 +77,16 @@ import blogTagged from './templates/content/scribble/tags/_tag/index'
 
 async function blog (contentful, emitter) {
     
-    let posts = await contentful.getEntries({content_type: 'blogPost', order: 'fields.date'})
+    let posts = await contentful.getEntries({content_type: 'blogPost', order: '-fields.date'})
     
     let tags = _(posts.items).map(p => p.fields.tags).flatten().uniq().keyBy(slugger).invert().value();
     
-    g('scribble/index.html', blogIndex, {posts, md}).then(emitter)
+    let summary = _.partialRight(_.truncate, { separator: '\n\n', length: 150 })
+    
+    g('scribble/index.html', blogIndex, {posts, _, summary, md}).then(emitter)
     for (let post of posts.items) {
-        g(`scribble/${post.fields.slug}/index.html`, blogPost, {post, md, slugger}).then(emitter)
+        g(`scribble/${post.fields.slug}/index.html`, blogPost, {post, md, slugger, moment}).then(emitter)
     }
-    
-    // for (let {tag, slug} in tags) {
-    //     let tagged_posts = _(posts.items).filter(p => p.fields.tags && _.includes(p.fields.tags, tag)).value() 
-    //     console.dir(tagged_posts)
-    //     g(`scribble/tags/${slug}/index.html`, blogTagged, {posts: tagged_posts, tag, slug, md}).then(emitter)
-    // }
-    
     
     _(posts.items).map(p => p.fields.tags).flatten().uniq().forEach(tag => {
         let slug = slugger(tag)
@@ -99,11 +97,28 @@ async function blog (contentful, emitter) {
 }
 
 import aboutIndex from './templates/content/me/index'
+import aboutSkills from './templates/content/me/do/index'
+import aboutExperience from './templates/content/me/done/index'
+import aboutExperienceDetail from './templates/content/me/done/_exp/index'
 
 async function about (contentful, emitter) {
     
     let cover = await contentful.getEntries({content_type: 'blockContent', 'fields.slug': 'me'})
     g('me/index.html', aboutIndex, {cover: cover.items[0], md}).then(emitter)
+    
+    let skills = await contentful.getEntries({content_type: 'cvSkill'})
+    g('me/do/index.html', aboutSkills, {skills, md, slugger}).then(emitter)
+    
+    let experiences = await contentful.getEntries({content_type: 'cvExperience', order: '-fields.from'})
+    let earliest = _.min(_.map(experiences.items, exp => moment(exp.fields.from).unix()))
+    let latest = _.max(_.map(experiences.items, exp => moment(exp.fields.to).unix()))
+    let relative = function (unixdate) { return 100* (moment(unixdate).unix() - earliest) / (latest - earliest) }
+    g('me/done/index.html', aboutExperience, {experiences, relative, md, moment, slugger}).then(emitter)
+    
+    for (let experience of experiences.items) {
+        let linked_skills = await contentful.getEntries({content_type: 'cvSkill', 'fields.developedAt.sys.id': experience.sys.id})
+        g(`me/done/${slugger(experience.fields.title)}/index.html`, aboutExperienceDetail, {experience, linked_skills, md, moment, slugger}).then(emitter)
+    }
     
 }
 

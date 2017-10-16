@@ -1,9 +1,12 @@
 extends ../../s-about 
 
+block head 
+    title Me at QUIRKY.technology
+
 block content 
     header.contenthdr.contenthdr--me 
         h2 Me
         
-    section.content.content--me !{md.render(cover.fields.body)}
+    section.content.content--me.content--bodytext !{md.render(cover.fields.body)}
     
     

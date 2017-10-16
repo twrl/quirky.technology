@@ -1,0 +1,37 @@
+extends ../../../../s-about.pug 
+
+block head 
+    title #{experience.fields.title} at QUIRKY.technology
+    
+block content 
+    article.experiencedetail
+        header.contenthdr.contenthdr--me 
+            h2 #{experience.fields.title}
+            p.experiencedetail__org #{experience.fields.organisation}
+            p.experiencedetail__timespan 
+                time(datetime=experience.fields.from) #{moment(experience.fields.from).format('MMMM YYYY')}
+                |  to 
+                if (experience.fields.to) 
+                    time(datetime=experience.fields.to) #{moment(experience.fields.to).format('MMMM YYYY')}
+                else 
+                    | date 
+                    
+        if experience.fields.description 
+            section.content.content--me.content--bodytext !{md.render(experience.fields.description)}
+        
+        if experience.fields.achievements
+            section.content.content--me.section--bodytext
+                h3 What I Achieved 
+                
+                ul 
+                    each achievement in experience.fields.achievements 
+                        li.experiencedetail__achievement #{achievement}
+                    
+        section.content.content--me.content--bodytext
+            h3 Skills I Learned/Honed/Used
+            
+            p 
+                each skill in linked_skills.items 
+                    span.pill.experiencedetail__skill 
+                        a(href='/me/do/#' + slugger(skill.fields.title)) #{skill.fields.title}
+                        

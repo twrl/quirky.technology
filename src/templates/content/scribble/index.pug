@@ -1,15 +1,19 @@
 extends ../../s-scribble 
 
+block head
+    title Scribbles at QUIRKY.technology
+
 block content 
     header.contenthdr.contenthdr--scribble
         h2 Scribble 
     
-    section.content.content--scribble
+    section.content.content--scribble.content--bodytext
         each post in posts.items
             section(resource='/scribble/' + post.fields.slug)
                 header 
                     h3
                         i.mdi.mdi-file-document-box 
                         a(href='/scribble/' + post.fields.slug) #{post.fields.title}
+                    | !{md.render(summary(post.fields.body))}
                 
     

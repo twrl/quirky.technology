@@ -14,7 +14,7 @@ import s3emitter from './s3emitter'
 
 import model from './model'
 
-function handler() {
+function handler(event, context) {
     
     model(contentful, s3emitter)
     

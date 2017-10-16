@@ -1,0 +1,23 @@
+extends ../../../s-about.pug 
+
+block head 
+    title Things I Can Do at QUIRKY.technology 
+    
+block content 
+    header.contenthdr.contenthdr--me 
+        h2 Things I Can Do 
+        
+    section.content.content--me 
+        ul.skillslist 
+            each skill in skills.items 
+                li.skill(data-category=skill.fields.category,id=slugger(skill.fields.title))
+                    h4 #{skill.fields.title} 
+                    | !{md.render(skill.fields.description)} 
+                    h5 When I've Done This 
+                    p.skill__evidencelist 
+                        each evidence in skill.fields.developedAt 
+                            span.pill 
+                                if (evidence.sys.contentType.sys.id == 'cvExperience')
+                                    a(href='/me/done/' + slugger(evidence.fields.title)) #{evidence.fields.title}
+                                else if (evidence.sys.contentType.sys.id == 'project')
+                                    a(href='/projects/' + evidence.fields.slug) #{evidence.fields.title}

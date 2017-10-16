@@ -1,15 +1,19 @@
 extends ../../../s-scribble 
 
+block head 
+    title #{post.fields.title} at QUIRKY.technology
+
 block content 
     article
         header.contenthdr.contenthdr--scribble 
             h2 #{post.fields.title}
             
             ul.metainfo 
-                li.metainfo--published #{post.fields.date}
+                li.metainfo--published 
+                    time(datetime=post.fields.date) #{moment(post.fields.date).fromNow()}
                 li.metainfo--tags 
                     each tag in post.fields.tags 
-                        span.slug 
+                        span.pill 
                             a(href='/scribble/tags/' + slugger(tag)) #{tag}
     
         section.content.content--scribble.content--bodytext

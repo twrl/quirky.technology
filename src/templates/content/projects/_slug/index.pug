@@ -1,5 +1,8 @@
 extends ../../../s-project 
 
+block head 
+    title #{project.fields.title} at QUIRKY.technology
+
 block content 
     article 
         header.contenthdr.contenthdr--projects
@@ -13,7 +16,7 @@ block content
         section.content.content--projects.content--bodytext
             | !{md.render(project.fields.description)}
             
-        if docs
+        if docs.length > 0
             section.content.content--projects.content--bodytext 
                 h3 Documents 
                 ul
